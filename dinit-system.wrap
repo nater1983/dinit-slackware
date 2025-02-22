@@ -4,8 +4,8 @@
 # dinit command line parameters.
 #
 
-# Check if the script was called with '4' as an argument
-if [[ "$1" == "4" ]]; then
+# Check if the script was called with '6' as an argument
+if [[ "$1" == "6" ]]; then
     echo "Rebooting system..."
     exec /sbin/reboot
 fi
