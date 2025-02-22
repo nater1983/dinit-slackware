@@ -25,7 +25,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=dinit
-VERSION=${VERSION:-0.17.1}
+VERSION=${VERSION:-$(echo *.tar.?z | rev | cut -f 3- -d . | rev | cut -d '-' -f 2-)}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}	
 PKGTYPE=${PKGTYPE:-tgz}
@@ -114,7 +114,7 @@ cp -arv $CWD/services/user $PKG/etc/dinit.d/
 # Remove dinit's halt/poweroff/reboot symlinks to dinit-shutdown.
 # These links will need to be manually created to switch to using
 # dinit for system init process.
-rm -f $PKG/sbin/dinit-{halt,poweroff,reboot}
+#rm -f $PKG/sbin/dinit-{halt,poweroff,reboot}
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
