@@ -2,5 +2,19 @@
 #
 # Wrapper script used to exec dinit at system init, while passing
 # dinit command line parameters.
-# 
+#
+
+# Check if the script was called with '4' as an argument
+if [[ "$1" == "4" ]]; then
+    echo "Rebooting system..."
+    exec /sbin/reboot
+fi
+
+# Check if the script was called with '0' as an argument
+if [[ "$1" == "0" ]]; then
+    echo "Shutting down system..."
+    exec /sbin/shutdown
+fi
+
+# Otherwise, run dinit
 exec /sbin/dinit --services-dir /etc/dinit.d/system
