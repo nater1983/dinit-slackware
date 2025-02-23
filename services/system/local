@@ -2,4 +2,4 @@
 
 type = process
 command = /etc/dinit.d/scripts/local.sh start
-depends-on = early-filesystems
+depends-on = networkmanager
