@@ -2,4 +2,6 @@
 
 type = process
 command = /etc/dinit.d/scripts/local.sh start
+smooth-recovery = true
+
 depends-on = networkmanager
