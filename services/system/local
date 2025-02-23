@@ -1,6 +1,5 @@
-# Load kernel modules from /etc/modules
+# Load local from /etc/rc.d/rc.local
 
-type = scripted
+type = process
 command = /etc/dinit.d/scripts/local.sh start
-restart = false
 depends-on = early-filesystems
