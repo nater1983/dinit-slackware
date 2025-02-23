@@ -1,7 +1,9 @@
 #!/bin/bash
+PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 if [ "$1" = start ]; then
-  PATH=/usr/bin:/usr/sbin:/bin:/sbin
-  
-  [ -x /etc/rc.d/rc.local ] && /etc/rc.d/rc.local
+# Start the local setup procedure.
+  if [ -x /etc/rc.d/rc.local ]; then
+    /etc/rc.d/rc.local
+  fi
 fi
