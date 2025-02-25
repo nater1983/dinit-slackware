@@ -111,6 +111,7 @@ mkdir -p $PKG/etc/dinit.d/
 cp -arv $CWD/services/scripts $PKG/etc/dinit.d/
 cp -arv $CWD/services/system $PKG/etc/dinit.d/
 cp -arv $CWD/services/user $PKG/etc/dinit.d/
+cp -arv $CWD/config $PKG/etc/dinit.d/
 
 # Remove dinit's halt/poweroff/reboot symlinks to dinit-shutdown.
 # These links will need to be manually created to switch to using
