@@ -1,7 +1,7 @@
-# Example networkmanager script.
+# Example NetworkManager script.
 
 type = process
-command = /usr/sbin/NetworkManager -n
+command = /usr/sbin/NetworkManager -d
 smooth-recovery  = true
 
 depends-on = rcboot
