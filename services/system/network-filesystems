@@ -7,5 +7,6 @@ logfile = /var/log/network-filesystems.log
 options = start-interruptible
 start-timeout = 0   # unlimited 
 
+#depends-on = dhcpcd
 depends-on = networkmanager
 depends-on = rpcstatd
