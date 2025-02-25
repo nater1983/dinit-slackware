@@ -1,7 +1,7 @@
 # Load local from /etc/rc.d/rc.local
 
-type = process
-command = /etc/dinit.d/scripts/local.sh start
-smooth-recovery = true
-
-depends-on = networkmanager
+type = scripted
+command = /bin/sh /etc/rc.d/rc.local
+restart = true
+logfile = /var/log/local.log
+depends-on = loginready
