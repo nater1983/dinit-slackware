@@ -1,0 +1,5 @@
+type = process
+command = /sbin/dhcpcd -B -M --logfile /var/log/dhcpcd-service.log eth0
+logfile = /var/log/dhcpcd.log
+restart = false
+depends-on = rcboot
