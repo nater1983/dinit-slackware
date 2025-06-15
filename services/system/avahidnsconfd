@@ -1,5 +1,5 @@
 type = process
-command = /usr/bin/avahi-dnsconfd -D
+command = /usr/sbin/avahi-dnsconfd -D
 before = loginready
 depends-on = rcboot
 depends-on = dbusd
