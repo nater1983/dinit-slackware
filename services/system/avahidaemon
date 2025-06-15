@@ -1,6 +1,6 @@
 type = process
 command = /usr/sbin/avahi-daemon -D
-before = login.target
-depends-on = local.target
-depends-on = dbus
+before = loginready
+depends-on = rcboot
+depends-on = dbusd
 smooth-recovery = true
