@@ -16,5 +16,11 @@ if [[ "$1" == "0" ]]; then
     exec /sbin/shutdown
 fi
 
+# Check if the script was called with '0' as an argument
+if [[ "$1" == "4" ]]; then
+    echo "Starting X Server..."
+    exec /etc/rc.d/rc.4
+fi
+
 # Otherwise, run dinit
 exec /sbin/dinit --services-dir /etc/dinit.d/system
