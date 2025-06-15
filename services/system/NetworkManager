@@ -1,5 +1,5 @@
-type            = process
-command         = /usr/bin/NetworkManager -d
+type            = scripted
+command         = /etc/dinit.d/scripts/networkmanager.sh start
 smooth-recovery = true
 logfile         = /var/log/NetworkManager.log
 depends-on      = dbusd
