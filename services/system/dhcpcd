@@ -1,5 +1,5 @@
-type = process
-command = /usr/sbin/dhcpcd -B -M
+type = scripted
+command = /etc/dinit.d/scripts/dhcpcd.sh
 logfile = /var/log/dhcpcd.log
 restart = false
 depends-on = rcboot
