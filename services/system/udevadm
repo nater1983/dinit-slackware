@@ -2,4 +2,4 @@ type = scripted
 command = /sbin/udevadm hwdb --update
 logfile = /run/udevadm.log
 restart = false
-depends-on = udevd
+depends-on = rcboot
