@@ -111,4 +111,3 @@ if grep -wq cgroup2 /proc/filesystems && grep -wq "cgroup_no_v1=all" /proc/cmdli
     fi
   fi
 fi
-fi
