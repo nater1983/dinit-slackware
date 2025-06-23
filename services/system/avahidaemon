@@ -1,5 +1,5 @@
 type = scripted
 command = /etc/dinit.d/scripts/avahi.sh start
-#stop-command = /etc/dinit.d/scripts/fuse.sh stop
 restart = false
 depends-on = NetworkManager
+#depends-on = dhcpcd
