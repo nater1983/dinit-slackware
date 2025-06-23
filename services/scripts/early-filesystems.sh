@@ -17,23 +17,25 @@ if [ "$1" = start ]; then
     fi
     
   # Mount efivarfs if it is not already mounted:
-  if [ -d /sys/firmware/efi/efivars ]; then
-    if ! mount | grep -wq efivarfs ; then
-      if [ -r /etc/default/efivarfs ]; then
-        . /etc/default/efivarfs
-      else
-        EFIVARFS=rw
-      fi
-      case "$EFIVARFS" in
-        'rw')
-          mount -o rw -t efivarfs none /sys/firmware/efi/efivars
-          ;;
-        'ro')
-          mount -o ro -t efivarfs none /sys/firmware/efi/efivars
-          ;;
-      esac
+if [ -d /sys/firmware/efi/efivars ]; then
+  # Only try to mount if efivarfs is not already mounted:
+  if ! mount | grep -wq efivarfs ; then
+    # Mount according to /etc/default/efivarfs:
+    if [ -r /etc/default/efivarfs ]; then
+      . /etc/default/efivarfs
+    else # default
+      EFIVARFS=rw
     fi
+    case "$EFIVARFS" in
+      'rw')
+      mount -o rw -t efivarfs none /sys/firmware/efi/efivars
+      ;;
+      'ro')
+      mount -o ro -t efivarfs none /sys/firmware/efi/efivars
+      ;;
+    esac
   fi
+fi
 
   # If /run exists, mount a tmpfs on it (unless the
   # initrd has already done so):
