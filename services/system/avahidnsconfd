@@ -1,7 +1,0 @@
-type = process
-command = /usr/sbin/avahi-dnsconfd -D
-before = loginready
-depends-on = rcboot
-depends-on = dbusd
-depends-on = avahidaemon
-smooth-recovery = true
