@@ -108,7 +108,6 @@ if grep -wq cgroup2 /proc/filesystems && grep -wq "cgroup_no_v1=all" /proc/cmdli
     else
       mkdir -p /dev/cgroup
       mount -t cgroup cgroup /dev/cgroup
-        fi
       fi
     fi
   fi
