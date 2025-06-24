@@ -81,35 +81,28 @@ if [ "$1" = start ]; then
 
   # Mount the Control Groups filesystem interface.
   # Try using cgroups v2 first, then fallback to v1:
-  # Mount Control Groups filesystem interface:
-if grep -wq cgroup2 /proc/filesystems 2> /dev/null ; then
-  # Load default setting for v1 or v2:
-  if [ -e /etc/default/cgroups ]; then
-    . /etc/default/cgroups
-  fi
-  # If CGROUPS_VERSION=2 in /etc/default/cgroups, then mount as cgroup-v2:
-  # See linux-*/Documentation/admin-guide/cgroup-v2.rst (section 2-1)
-  if [ "$CGROUPS_VERSION" = "2" ]; then
+  if grep -wq cgroup2 /proc/filesystems && grep -wq "cgroup_no_v1=all" /proc/cmdline ; then
     if [ -d /sys/fs/cgroup ]; then
       mount -t cgroup2 none /sys/fs/cgroup
     else
       mkdir -p /dev/cgroup
       mount -t cgroup2 none /dev/cgroup
     fi
-  elif [ "$CGROUPS_VERSION" = "1" ] || [ -z "$CGROUPS_VERSION"]; then # mount as cgroup-v1 (default):
+  elif grep -wq cgroup /proc/filesystems ; then 
+    # Set up v1, same as slackware's rc.S:
     if [ -d /sys/fs/cgroup ]; then
-      # See linux-*/Documentation/admin-guide/cgroup-v1/cgroups.rst (section 1.6)
-      # Mount a tmpfs as the cgroup filesystem root:
-      mount -t tmpfs -o mode=0755,size=8M cgroup_root /sys/fs/cgroup
-      # Autodetect available controllers and mount them in subfolders:
-      for i in $(/bin/cut -f 1 /proc/cgroups | /bin/tail -n +2) ; do
-        mkdir /sys/fs/cgroup/$i
-        mount -t cgroup -o $i $i /sys/fs/cgroup/$i
-      done
-      unset i
-    else
-      mkdir -p /dev/cgroup
-      mount -t cgroup cgroup /dev/cgroup
+      if [ -x /bin/cut -a -x /bin/tail ]; then
+        mount -t tmpfs -o mode=0755,size=8M cgroup_root /sys/fs/cgroup
+        controllers="$(/bin/cut -f1 /proc/cgroups | /bin/tail -n +2)"
+        for i in $controllers; do
+          mkdir /sys/fs/cgroup/$i
+          mount -t cgroup -o $i $i /sys/fs/cgroup/$i
+        done
+        unset i controllers
+      else
+        mkdir -p /dev/cgroup
+        mount -t cgroup cgroup /dev/cgroup
+      fi
     fi
   fi
 fi
