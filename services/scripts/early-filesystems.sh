@@ -37,13 +37,20 @@ if [ "$1" = start ]; then
 
   # If /run exists, mount a tmpfs on it (unless the
   # initrd has already done so):
-  if [ -d /run ]; then
-    if ! grep -wq "tmpfs /run tmpfs" /proc/mounts ; then
-      mount -n -t tmpfs -o mode=755,size=32M,nodev,nosuid,noexec tmpfs /run
-      # various directories within /run:
+# If /run exists, mount a tmpfs on it (unless the
+# initrd has already done so):
+if [ -d /run ]; then
+  if ! grep -wq "tmpfs /run tmpfs" /proc/mounts ; then
+    # Other Linux systems seem to cap the size of /run to half the system memory.
+    # We'll go with 25% which should be much larger than the previous default of
+    # 32M :-)
+    RUNSIZE="$(expr $(grep MemTotal: /proc/meminfo | rev | cut -f 2 -d ' ' | rev) / 1024 / 4)M"
+    /sbin/mount -v -t tmpfs tmpfs /run -o mode=0755,size=$RUNSIZE,nodev,nosuid,noexec
+    unset RUNSIZE
+    # various directories within /run:
       mkdir /run/lock /run/udev
-    fi
   fi
+fi
 
   # Mount devtmpfs, checking if already mounted:
   if ! grep -wq "devtmpfs /dev devtmpfs" /proc/mounts ; then
