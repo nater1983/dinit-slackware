@@ -119,3 +119,26 @@ if grep -wq cgroup2 /proc/filesystems && grep -wq "cgroup_no_v1=all" /proc/cmdli
     fi
   fi
 fi
+
+# Enable swapping:
+if [ -z "$container" ]; then
+  /sbin/swapon -a 2> /dev/null
+fi
+
+# Enable swapping on a ZRAM device:
+if [ -z "$container" -a -r /etc/default/zram ]; then
+  . /etc/default/zram
+  if [ "$ZRAM_ENABLE" = "1" ]; then
+    if [ ! -d /sys/devices/virtual/block/zram0 ]; then
+      modprobe zram num_devices=$ZRAMNUMBER
+    fi
+    echo "Setting up /dev/zram0:  zramctl -f -a $ZRAMCOMPRESSION -s ${ZRAMSIZE}K"
+    ZRAM_DEVICE=$(zramctl -f -a $ZRAMCOMPRESSION -s ${ZRAMSIZE}K)
+    if [ ! -z $ZRAM_DEVICE ]; then
+      mkswap $ZRAM_DEVICE 1> /dev/null 2> /dev/null
+      echo "Activating ZRAM swap:  swapon --priority $ZRAMPRIORITY $ZRAM_DEVICE"
+      swapon --priority $ZRAMPRIORITY $ZRAM_DEVICE
+    fi
+  fi
+  unset MEMTOTAL ZRAMCOMPRESSION ZRAMNUMBER ZRAMSIZE ZRAM_DEVICE ZRAM_ENABLE
+fi
