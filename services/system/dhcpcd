@@ -1,5 +1,6 @@
 type = scripted
-command = /etc/dinit.d/scripts/dhcpcd.sh
+command = /etc/dinit.d/scripts/dhcpcd.sh start
+stop-command =/etc/dinit.d/scripts/dhcpcd.sh stop
 logfile = /var/log/dhcpcd.log
 restart = false
 depends-on = rcboot
