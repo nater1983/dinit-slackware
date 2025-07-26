@@ -1,0 +1,5 @@
+type       = process
+command    = /usr/libexeec/fwupd/fwupd
+depends-on = dbusd
+before     = display-manager
+restart    = true
