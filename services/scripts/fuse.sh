@@ -1,21 +1,12 @@
 #!/bin/sh
+export PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 set -e
 
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-MOUNTPOINT=/sys/fs/fuse/connections
-
+if [ "$1" != "stop" ]; then
 # Gracefully exit if the package has been removed.
 which fusermount3 &>/dev/null || exit 5
 which fusermount &>/dev/null || exit 5
-
-# Define LSB log_* functions.
-if [ -r /lib/lsb/init-functions ]; then
-  . /lib/lsb/init-functions
-fi
-
-case "$1" in
-    start)
 	if ! grep -qw fuse /proc/filesystems; then
 		echo -n "Loading fuse module"
 		if ! modprobe fuse >/dev/null 2>&1; then
@@ -39,46 +30,4 @@ case "$1" in
 	else
 		echo "Fuse control filesystem already available."
 	fi
-	;;
-    stop)
-	if ! grep -qw fuse /proc/filesystems; then
-		echo "Fuse filesystem not loaded."
-		exit 7
-	fi
-	if grep -qw $MOUNTPOINT /proc/mounts; then
-		echo -n "Unmounting fuse control filesystem"
-		if ! umount $MOUNTPOINT >/dev/null 2>&1; then
-			echo " failed!"
-		else
-			echo "."
-		fi
-	else
-		echo "Fuse control filesystem not mounted."
-	fi
-	if grep -qw "^fuse" /proc/modules; then
-		echo -n "Unloading fuse module"
-		if ! rmmod fuse >/dev/null 2>&1; then
-			echo " failed!"
-		else
-			echo "."
-		fi
-	else
-		echo "Fuse module not loaded."
-	fi
-	;;
-    status)
-	echo -n "Checking fuse filesystem"
-	if ! grep -qw fuse /proc/filesystems; then
-		echo " not available."
-		exit 3
-	else
-		echo " ok."
-	fi
-	;;
-  *)
-	echo "Usage: $0 {start|stop}"
-	exit 1
-	;;
-esac
-
-exit 0
+ fi;
