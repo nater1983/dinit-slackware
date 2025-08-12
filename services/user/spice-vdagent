@@ -1,0 +1,5 @@
+type = process
+command = /usr/bin/spice-vdagent -x
+restart = false
+logfile = /var/log/spice-vdagent.log
+depends-on = dbus
