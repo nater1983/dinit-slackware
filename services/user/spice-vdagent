@@ -3,4 +3,4 @@ command = /etc/rc.d/rc.spice-vdagent start
 stop-command = /etc/rc.d/rc.spice-vdagent stop
 restart = false
 logfile = /var/log/spice-vdagent.log
-depends-on = dbusd
+depends-on = dbus
